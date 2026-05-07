@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Arcane Abyss — Match-3</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient background particles -->
+  <canvas id="particle-canvas"></canvas>
+
+  <!-- ── Main Menu ──────────────────────────────────────────────────────── -->
+  <div id="screen-mainmenu" class="screen active">
+    <div class="game-logo">
+      <div class="logo-title">Arcane Abyss</div>
+      <div class="logo-subtitle">✦ Match the Shadows ✦</div>
+    </div>
+    <div class="btn-row">
+      <button id="btn-play" class="btn btn-gold">Play</button>
+    </div>
+    <div class="name-row">
+      <input id="input-player-name" class="name-input" type="text"
+             maxlength="20" placeholder="Shadow Mage" spellcheck="false">
+      <button id="btn-set-name" class="btn btn-sm">Set Name</button>
+    </div>
+    <div id="name-display" class="name-display"></div>
+    <div class="btn-row">
+      <button id="btn-hiscores" class="btn btn-sm">High Scores</button>
+    </div>
+  </div>
+
+  <!-- ── High Scores ───────────────────────────────────────────────────────── -->
+  <div id="screen-hiscores" class="screen">
+    <div class="overlay-panel hiscore-panel">
+      <div class="overlay-title">High Scores</div>
+      <table id="hiscore-table" class="hiscore-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Lv</th>
+            <th>Stars</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <button id="btn-hs-back" class="btn btn-sm">← Back</button>
+    </div>
+  </div>
+
+  <!-- ── Level Select ───────────────────────────────────────────────────── -->
+  <div id="screen-levelselect" class="screen">
+    <div class="screen-title">Choose Your Curse</div>
+    <div id="level-grid"></div>
+    <button id="btn-ls-back" class="btn btn-sm">← Back</button>
+  </div>
+
+  <!-- ── Game ──────────────────────────────────────────────────────────── -->
+  <div id="screen-game" class="screen">
+    <!-- HUD -->
+    <div id="hud">
+      <span id="level-title">Level 1</span>
+
+      <div class="score-wrap">
+        <div id="score-val">0</div>
+        <div class="score-bar-track">
+          <div id="score-bar"></div>
+        </div>
+        <div class="hud-stars">
+          <span id="star1" class="star dim">★</span>
+          <span id="star2" class="star dim">★</span>
+          <span id="star3" class="star dim">★</span>
+        </div>
+      </div>
+
+      <div class="moves-wrap">
+        <span class="moves-label">Moves</span>
+        <span id="moves-count">—</span>
+      </div>
+
+      <button id="btn-pause" class="btn btn-sm">⏸</button>
+    </div>
+
+    <!-- Board -->
+    <div class="board-wrap">
+      <canvas id="board-canvas"></canvas>
+    </div>
+  </div>
+
+  <!-- ── Pause ──────────────────────────────────────────────────────────── -->
+  <div id="screen-pause" class="screen">
+    <div class="overlay-panel">
+      <div class="overlay-title">Paused</div>
+      <div class="btn-row">
+        <button id="btn-resume"  class="btn">Resume</button>
+      </div>
+      <div class="btn-row">
+        <button id="btn-restart" class="btn btn-sm">Restart</button>
+        <button id="btn-quit"    class="btn btn-sm btn-danger">Quit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Level Complete ─────────────────────────────────────────────────── -->
+  <div id="screen-complete" class="screen">
+    <div class="overlay-panel">
+      <div class="overlay-title">Victory!</div>
+      <div class="overlay-stars" id="complete-stars">
+        <span class="star dim">★</span>
+        <span class="star dim">★</span>
+        <span class="star dim">★</span>
+      </div>
+      <div class="overlay-score" id="complete-score">0</div>
+      <div class="btn-row">
+        <button id="btn-next"    class="btn btn-gold">Next Level →</button>
+      </div>
+      <button id="btn-comp-ls" class="btn btn-sm">Level Select</button>
+    </div>
+  </div>
+
+  <!-- ── Level Fail ─────────────────────────────────────────────────────── -->
+  <div id="screen-fail" class="screen">
+    <div class="overlay-panel">
+      <div class="overlay-title fail">Defeated</div>
+      <div class="overlay-score" id="fail-score">0</div>
+      <div class="btn-row">
+        <button id="btn-retry"   class="btn">Try Again</button>
+      </div>
+      <button id="btn-fail-ls" class="btn btn-sm">Level Select</button>
+    </div>
+  </div>
+
+  <!-- Scripts (dependency order) -->
+  <script src="js/levels.js"></script>
+  <script src="js/boosters.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+
+  <script>
+    // Resize ambient canvas to fill window
+    (function () {
+      const ac = document.getElementById('particle-canvas');
+      function sizeAmbient() {
+        ac.width = window.innerWidth;
+        ac.height = window.innerHeight;
+      }
+      sizeAmbient();
+      window.addEventListener('resize', sizeAmbient);
+    })();
+  </script>
+</body>
+</html>
