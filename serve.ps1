@@ -11,6 +11,12 @@ while ($listener.IsListening) {
     $path = $req.Url.LocalPath.TrimStart('/')
     if ($path -eq '') { $path = 'index.html' }
     $filePath = Join-Path $root $path
+    $resolvedPath = try { (Resolve-Path $filePath -ErrorAction Stop).Path } catch { $null }
+    if (-not $resolvedPath -or -not $resolvedPath.StartsWith($root + [System.IO.Path]::DirectorySeparatorChar) -and $resolvedPath -ne $root) {
+        $res.StatusCode = 403
+        $res.Close()
+        continue
+    }
     if (Test-Path $filePath -PathType Leaf) {
         $ext = [System.IO.Path]::GetExtension($filePath).ToLower()
         $mime = switch ($ext) {

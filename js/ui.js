@@ -672,7 +672,7 @@ window.UI = (() => {
         <td${rankClass}>${rank}</td>
         <td>${escapeHtml(e.name)}</td>
         <td class="hs-score">${Number(e.score).toLocaleString()}</td>
-        <td>${e.level}</td>
+        <td>${Number(e.level)}</td>
         <td>${stars}</td>
       </tr>`;
     }).join('');

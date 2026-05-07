@@ -478,7 +478,7 @@ window.Game = (() => {
   }
 
   function setPlayerName(name) {
-    const trimmed = (name || '').trim() || 'Shadow Mage';
+    const trimmed = (name || '').trim().slice(0, 20) || 'Shadow Mage';
     try { localStorage.setItem('darkMagic_playerName', trimmed); } catch {}
     return trimmed;
   }
