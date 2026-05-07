@@ -1,4 +1,6 @@
 {
   "framework": null,
-  "outputDirectory": "public"
+  "buildCommand": "echo done",
+  "outputDirectory": "public",
+  "installCommand": ""
 }
