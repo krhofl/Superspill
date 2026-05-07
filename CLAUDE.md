@@ -18,21 +18,21 @@ There are no build steps, package managers, linters, or test runners — this is
 
 ## Architecture
 
-Four script files load in dependency order (`levels.js` → `boosters.js` → `game.js` → `ui.js`). Each exposes a single global on `window`.
+Game files live in `public/` (served as the web root). Four script files load in dependency order (`levels.js` → `boosters.js` → `game.js` → `ui.js`). Each exposes a single global on `window`.
 
-### `js/levels.js` — `window.LEVELS`
+### `public/js/levels.js` — `window.LEVELS`
 Array of 30 level definition objects. Shape:
 ```js
 { id, moves, targetScore, star2Score, star3Score, gemTypes, obstacles: [{type, row, col, hp}], lockedGems }
 ```
 
-### `js/boosters.js` — `window.Boosters`
+### `public/js/boosters.js` — `window.Boosters`
 Pure functions; no state. Three exports:
 - `classifyRuns(matchRuns, swapOrigin)` — called *before* gem removal; converts matched runs into booster-creation instructions. L/T intersections are detected first (→ `arcane_bomb`), then 5-in-a-line (→ `void_orb`), then 4-in-a-line (→ `line_rune_row/col`).
 - `activate(board, row, col, triggerColor, activatedIds)` — fires a single booster, chains recursively, deduplicates via `activatedIds` Set.
 - `activateCombined(board, rA, cA, rB, cB, activatedIds)` — 8-entry combination matrix for booster+booster swaps.
 
-### `js/game.js` — `window.Game`
+### `public/js/game.js` — `window.Game`
 Owns all game state and logic. No DOM access. Key internals:
 
 **Gem object**: `{ id, type, booster, obstacleType, obstacleHp, visualState, animX, animY, targetX, targetY, alpha, targetAlpha, scale, targetScale }`  
@@ -55,7 +55,7 @@ Owns all game state and logic. No DOM access. Key internals:
 - `darkMagic_playerName` — string, max 20 chars enforced in `setPlayerName()`
 - `darkMagic_hiscores` — top-10 array of `{ name, score, level, stars, date }`
 
-### `js/ui.js` — `window.UI`
+### `public/js/ui.js` — `window.UI`
 Owns the `requestAnimationFrame` render loop, canvas drawing, DOM wiring, and all animation state. Key points:
 
 - **High-DPI**: canvas physical size = `BOARD_PX * devicePixelRatio`; `ctx.scale(dpr, dpr)` so all drawing uses CSS pixels.
