@@ -742,6 +742,9 @@ window.UI = (() => {
     const quitBtn = document.getElementById('btn-quit');
     if (quitBtn) quitBtn.addEventListener('click', () => showScreen('screen-levelselect'));
 
+    const mainMenuBtn = document.getElementById('btn-mainmenu');
+    if (mainMenuBtn) mainMenuBtn.addEventListener('click', () => showScreen('screen-mainmenu'));
+
     // Complete screen
     const nextBtn = document.getElementById('btn-next');
     if (nextBtn) nextBtn.addEventListener('click', () => {
